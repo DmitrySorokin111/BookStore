@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+  <title>Добавить книгу</title>
+</head>
+<body>
+<h1>Добавить книгу</h1>
+<form th:action="@{/storeassistance/add-book}" th:object="${book}" method="post">
+  <div>
+    <label>Название:</label>
+    <input type="text" th:field="*{title}" />
+  </div>
+  <div>
+    <label>Автор:</label>
+    <input type="text" th:field="*{author}" />
+  </div>
+  <div>
+    <label>Издательство:</label>
+    <input type="text" th:field="*{publisher}" />
+  </div>
+  <div>
+    <label>Год издания:</label>
+    <input type="number" th:field="*{year}" />
+  </div>
+  <div>
+    <label>Жанр:</label>
+    <input type="text" th:field="*{genre}" />
+  </div>
+  <div>
+    <label>ISBN:</label>
+    <input type="text" th:field="*{isbn}" />
+  </div>
+  <div>
+    <label>Цена:</label>
+    <input type="number" th:field="*{price}"/>
+  </div>
+  <div>
+    <label>Кол-во страниц:</label>
+    <input type="number" th:field="*{pages}" />
+  </div>
+  <div>
+    <label>Аннотация:</label>
+    <textarea th:field="*{description}"></textarea>
+  </div>
+  <div>
+    <label>Рейтинг (0-10):</label>
+    <input type="number" th:field="*{rating}" min="0" max="10" step="1" />
+  </div>
+  <div>
+    <label>Признак новизны:</label>
+    <input type="checkbox" th:field="*{newFlag}" />
+  </div>
+  <div>
+    <label>Кол-во на складе:</label>
+    <input type="number" th:field="*{stock}" />
+  </div>
+  <div>
+    <button type="submit">Добавить</button>
+  </div>
+</form>
+</body>
+</html>

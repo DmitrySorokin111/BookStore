@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www/thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список книг</title>
+</head>
+<body>
+  <h1>Список книг</h1>
+  <a href="/storeassistance/add-book"><button>Добавить книгу</button></a>
+  <table>
+    <tr>
+      <th>Название</th>
+      <th>Автор</th>
+      <th>Издательство</th>
+      <th>Год издания</th>
+      <th>Жанр</th>
+      <th>ISBN</th>
+      <th>Цена</th>
+      <th>Кол-во страниц</th>
+      <th>Аннотация</th>
+      <th>Рейтинг</th>
+      <th>Признак новизны</th>
+      <th>Кол-во на складе</th>
+    </tr>
+    <tr th:each="book : ${books}">
+      <td th:text="${book.title}"></td>
+      <td th:text="${book.author}"></td>
+      <td th:text="${book.publisher}"></td>
+      <td th:text="${book.year}"></td>
+      <td th:text="${book.genre}"></td>
+      <td th:text="${book.isbn}"></td>
+      <td th:text="${book.price}"></td>
+      <td th:text="${book.pages}"></td>
+      <td th:text="${book.description}"></td>
+      <td th:text="${book.rating}"></td>
+      <td th:text="${book.newFlag ? 'Новинка' : ''}"></td>
+      <td th:text="${book.stock}"></td>
+    </tr>
+  </table>
+</body>
+</html>
