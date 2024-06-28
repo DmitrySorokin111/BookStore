@@ -24,6 +24,14 @@
             align-items: left;
         }
 
+        .book-item img {
+            width: 150px; /* Ширина изображений */
+            height: 200px; /* Высота изображений */
+            object-fit: cover; /* Установка типа подгонки */
+            margin-bottom: 10px;
+            align-self: center;
+        }
+
         .book-item .book-author {
             color: gray;
         }
@@ -52,12 +60,15 @@
 <h1 style="text-align:center;">Список книг</h1>
 <div class="book-list">
   <div th:each="book : ${books}" class="book-item">
-    <div class="book-title" th:text="${book.title}">Название книги</div>
-    <div class="book-author" th:text="${book.author}">Автор</div>
+    <a th:href="@{/book(id=${book.getValue().id})}">
+      <img th:src="@{${book.getValue().imagePath}}" alt="Обложка книги" />
+    </a>
+    <div class="book-title" th:text="${book.getValue().title}">Название книги</div>
+    <div class="book-author" th:text="${book.getValue().author}">Автор</div>
     <div class="book-price">
-      <span th:text="${book.price}">Цена</span> ₽
+      <span th:text="${book.getValue().price}">Цена</span> ₽
     </div>
-    <button th:onclick="'addToCart(' + ${book.id} + ')'">В корзину</button>
+    <button>В корзину</button>
   </div>
 </div>
 <a href="/storeassistance/add-book"><button>Добавить книгу</button></a>

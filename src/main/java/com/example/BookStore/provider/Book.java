@@ -20,6 +20,7 @@ public class Book {
     private int rating;
     private boolean newFlag;
     private int stock;
+    public String imagePath;
 
     public Book() {
         this.id = seq++;

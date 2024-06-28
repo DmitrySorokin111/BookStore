@@ -25,7 +25,13 @@
   </div>
   <div>
     <label>Жанр:</label>
-    <input type="text" th:field="*{genre}" />
+    <select th:field="*{genre}">
+      <option value="">Выберите жанр</option>
+      <option value="Story">Рассказ</option>
+      <option value="Tale">Повесть</option>
+      <option value="Novel">Роман</option>
+      <option value="Political economy">Политическая экономия</option>
+    </select>
   </div>
   <div>
     <label>ISBN:</label>
@@ -54,6 +60,16 @@
   <div>
     <label>Кол-во на складе:</label>
     <input type="number" th:field="*{stock}" />
+  </div>
+  <div>
+    <label>Обложка:</label>
+    <select th:field="*{imagePath}">
+      <option value="images/1.jpg">Выберите обложку</option>
+      <option value="images/1.jpg">Обложка 1</option>
+      <option value="images/2.jpg">Обложка 2</option>
+      <option value="images/3.jpg">Обложка 3</option>
+      <option value="images/4.jpg">Обложка 4</option>
+    </select>
   </div>
   <div>
     <button type="submit">Добавить</button>
