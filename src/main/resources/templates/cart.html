@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+    <link rel="stylesheet" href="path/to/your/css/styles.css">
+</head>
+<body>
+<h1>Корзина</h1>
+<div th:if="${cartItems.size() == 0}">
+    <p>Ваша корзина пуста.</p>
+</div>
+<div th:if="${cartItems.size() > 0}">
+    <ul>
+        <li th:each="entry : ${cartItems}">
+            <div>
+                <img th:src="@{${entry.key.imagePath}}" alt="Обложка книги" style="width:100px;height:150px;" />
+            </div>
+            <div>
+                <h3 th:text="${entry.key.title}">Название книги</h3>
+                <p th:text="${entry.key.author}">Автор</p>
+                <p th:text="${entry.key.price} + ' Р'">Цена</p>
+                <p>
+                <form th:action="@{/update-cart}" method="post">
+                    <input type="hidden" th:name="bookId" th:value="${entry.key.id}" />
+                    <button type="submit" name="action" value="decrease">-</button>
+                    <span th:text="${entry.value}">0</span>
+                    <button type="submit" name="action" value="increase">+</button>
+                </form>
+                </p>
+                <p>
+                <form th:action="@{/remove-from-cart}" method="post">
+                    <input type="hidden" th:name="bookId" th:value="${entry.key.id}" />
+                    <button type="submit">Удалить</button>
+                </form>
+                </p>
+            </div>
+        </li>
+    </ul>
+    <div>
+        <h3>Общая стоимость: <span th:text="${totalPrice}">0</span> Р</h3>
+        <form th:action="@{/checkout}" method="get">
+            <button type="submit">Перейти к оформлению</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
