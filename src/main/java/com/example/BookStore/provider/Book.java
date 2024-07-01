@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Data
 public class Book {
@@ -39,5 +41,22 @@ public class Book {
 
     public Book() {
         this.id = seq++;
+    }
+
+    public Book(
+            long id, String title, String author, String publisher,
+            int year, String isbn, double price, int pages,
+            int stock, String imagePath)
+    {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.year = year;
+        this.isbn = isbn;
+        this.price = price;
+        this.pages = pages;
+        this.stock = stock;
+        this.imagePath = imagePath;
     }
 }

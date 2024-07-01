@@ -13,7 +13,9 @@ import java.util.Map;
 @org.springframework.stereotype.Controller
 @SessionAttributes("cart")
 public class Controller {
-    private static Map<Long, Book> books = new HashMap<>();
+    private static Map<Long, Book> books = new HashMap<>() {{
+        put((long) -1, new Book((long) -1, "Отцы и дети", "Тургенев", "Издательство АСТ", 2011, "978-5-17-154015-9", 100, 200, 100, "images/1.jpg"));
+    }};
 
     @ModelAttribute("cart")
     public Cart cart() {
