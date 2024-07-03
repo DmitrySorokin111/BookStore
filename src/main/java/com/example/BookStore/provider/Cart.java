@@ -1,11 +1,13 @@
 package com.example.BookStore.provider;
 
 import lombok.Data;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@Service
 public class Cart {
     private Map<Book, Integer> cart = new HashMap<>();
 

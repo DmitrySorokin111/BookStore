@@ -1,21 +1,21 @@
 package com.example.BookStore.controller;
 
 import com.example.BookStore.provider.Book;
+import com.example.BookStore.provider.BookProvider;
 import com.example.BookStore.provider.Cart;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @org.springframework.stereotype.Controller
 @SessionAttributes("cart")
 public class Controller {
-    private static Map<Long, Book> books = new HashMap<>() {{
-        put((long) -1, new Book((long) -1, "Отцы и дети", "Тургенев", "Издательство АСТ", 2011, "978-5-17-154015-9", 100, 200, 100, "images/1.jpg"));
-    }};
+    @Autowired
+    private BookProvider bookProvider;
 
     @ModelAttribute("cart")
     public Cart cart() {
@@ -24,16 +24,19 @@ public class Controller {
 
     @GetMapping("/booklist")
     public String getBookList(Model model) {
-        model.addAttribute("books", books);
+        model.addAttribute("books", bookProvider.getAllBooks());
         return "booklist";
     }
 
     @GetMapping("/book")
     public String getBook(@RequestParam("id") long bookId, Model model, @ModelAttribute("cart") Cart cart) {
-        Book book = books.get(bookId);
-        model.addAttribute("book", book);
-        model.addAttribute("quantity", cart.getQuantity(book));
-        return "book-details";
+        Optional<Book> book = bookProvider.getBook(bookId);
+        if (book.isPresent()) {
+            model.addAttribute("book", book.get());
+            model.addAttribute("quantity", cart.getQuantity(book.get()));
+            return "book-details";
+        }
+        return "redirect:/booklist";
     }
 
     @GetMapping("/storeassistance/add-book")
@@ -54,33 +57,33 @@ public class Controller {
         if (br.hasErrors()) {
             return "add-book";
         }
-        books.put(book.getId(), book);
+        bookProvider.addBook(book);
         return "redirect:/booklist";
     }
 
     @PostMapping("/add-to-cart")
     public String addToCart(@RequestParam("id") Long id, @ModelAttribute("cart") Cart cart) {
-        Book book = books.get(id);
-        cart.addBook(book);
+        Optional<Book> book = bookProvider.getBook(id);
+        cart.addBook(book.get());
         return "redirect:/book?id=" + id;
     }
 
     @PostMapping("/update-cart")
     public String updateCart(@RequestParam("bookId") Long bookId, @RequestParam("action") String action, @ModelAttribute("cart") Cart cart) {
-        Book book = books.get(bookId);
-        int currentQuantity = cart.getQuantity(book);
+        Optional<Book> book = bookProvider.getBook(bookId);
+        int currentQuantity = cart.getQuantity(book.get());
         if ("increase".equals(action)) {
-            cart.addBook(book);
+            cart.addBook(book.get());
         } else if ("decrease".equals(action) && currentQuantity > 0) {
-            cart.updateBookQuantity(book, currentQuantity - 1);
+            cart.updateBookQuantity(book.get(), currentQuantity - 1);
         }
         return "redirect:/cart";
     }
 
     @PostMapping("/remove-from-cart")
     public String removeFromCart(@RequestParam("bookId") Long bookId, @ModelAttribute("cart") Cart cart) {
-        Book book = books.get(bookId);
-        cart.removeBook(book);
+        Optional<Book> book = bookProvider.getBook(bookId);
+        cart.removeBook(book.get());
         return "redirect:/cart";
     }
 }

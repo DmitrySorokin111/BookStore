@@ -61,13 +61,13 @@
 <h1 style="text-align:center;">Список книг</h1>
 <div class="book-list">
   <div th:each="book : ${books}" class="book-item">
-    <a th:href="@{/book(id=${book.getValue().id})}">
-      <img th:src="@{${book.getValue().imagePath}}" alt="Обложка книги" />
+    <a th:href="@{/book(id=${book.id})}">
+      <img th:src="@{${book.imagePath}}" alt="Обложка книги" />
     </a>
-    <div class="book-title" th:text="${book.getValue().title}">Название книги</div>
-    <div class="book-author" th:text="${book.getValue().author}">Автор</div>
+    <div class="book-title" th:text="${book.title}">Название книги</div>
+    <div class="book-author" th:text="${book.author}">Автор</div>
     <div class="book-price">
-      <span th:text="${book.getValue().price}">Цена</span> ₽
+      <span th:text="${book.price}">Цена</span> ₽
     </div>
   </div>
 </div>
