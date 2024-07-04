@@ -18,7 +18,7 @@
             </div>
             <div>
                 <h3 th:text="${entry.key.title}">Название книги</h3>
-                <p th:text="${entry.key.author}">Автор</p>
+                <p th:text="${entry.key.author.name}">Автор</p>
                 <p th:text="${entry.key.price} + ' Р'">Цена</p>
                 <p>
                 <form th:action="@{/update-cart}" method="post">

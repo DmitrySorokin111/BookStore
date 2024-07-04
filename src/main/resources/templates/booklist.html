@@ -65,7 +65,7 @@
       <img th:src="@{${book.imagePath}}" alt="Обложка книги" />
     </a>
     <div class="book-title" th:text="${book.title}">Название книги</div>
-    <div class="book-author" th:text="${book.author}">Автор</div>
+    <div class="book-author" th:text="${book.author.name}">Автор</div>
     <div class="book-price">
       <span th:text="${book.price}">Цена</span> ₽
     </div>

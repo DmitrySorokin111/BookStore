@@ -13,9 +13,10 @@
     <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
   </div>
   <div>
-    <label>Автор:</label>
-    <input type="text" id="author" th:field="*{author}" />
-    <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
+    <label for="author">Автор:</label>
+    <select id="author" th:field="*{author}" required>
+      <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}">Author</option>
+    </select><br/>
   </div>
   <div>
     <label>Издательство:</label>
@@ -23,8 +24,8 @@
   </div>
   <div>
     <label>Год издания:</label>
-    <input type="number" id="year" th:field="*{year}" />
-    <p th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
+    <input type="number" id="publicationYear" th:field="*{publicationYear}" />
+    <p th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}"></p>
   </div>
   <div>
     <label>Жанр:</label>

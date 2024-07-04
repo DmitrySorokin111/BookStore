@@ -1,6 +1,8 @@
 package com.example.BookStore.controller;
 
-import com.example.BookStore.provider.Book;
+import com.example.BookStore.model.Author;
+import com.example.BookStore.model.Book;
+import com.example.BookStore.provider.AuthorProvider;
 import com.example.BookStore.provider.BookProvider;
 import com.example.BookStore.provider.Cart;
 import jakarta.validation.Valid;
@@ -16,6 +18,9 @@ import java.util.Optional;
 public class Controller {
     @Autowired
     private BookProvider bookProvider;
+
+    @Autowired
+    private AuthorProvider authorProvider;
 
     @ModelAttribute("cart")
     public Cart cart() {
@@ -42,6 +47,7 @@ public class Controller {
     @GetMapping("/storeassistance/add-book")
     public String getAddBookForm(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("authors", authorProvider.getAllAuthors());
         return "add-book";
     }
 
@@ -53,11 +59,14 @@ public class Controller {
     }
 
     @PostMapping("/storeassistance/add-book")
-    public String addBook(@Valid @ModelAttribute Book book, BindingResult br) {
+    public String addBook(@Valid @ModelAttribute Book book, BindingResult br, Model model) {
         if (br.hasErrors()) {
+            model.addAttribute("authors", authorProvider.getAllAuthors());
             return "add-book";
         }
-        bookProvider.addBook(book);
+//        Author author = authorProvider.getAuthorById(book.getAuthor().getId());
+//        System.out.print(author.getBooks());
+        bookProvider.saveBook(book);
         return "redirect:/booklist";
     }
 

@@ -1,6 +1,7 @@
 package com.example.BookStore.provider;
 
-import com.example.BookStore.dao.BookDAO;
+import com.example.BookStore.dao.BookRepository;
+import com.example.BookStore.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +12,17 @@ import java.util.Optional;
 public class BookProvider {
 
     @Autowired
-    private BookDAO bookDAO;
+    private BookRepository bookRepository;
 
-    public void addBook(Book book) {
-        bookDAO.addBook(book);
+    public void saveBook(Book book) {
+        bookRepository.save(book);
     }
 
     public List<Book> getAllBooks() {
-        return bookDAO.getAllBooks();
+        return bookRepository.findAll();
     }
 
     public Optional<Book> getBook(long id) {
-        return bookDAO.getBook(id);
+        return bookRepository.findById(id);
     }
 }

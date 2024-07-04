@@ -1,5 +1,6 @@
 package com.example.BookStore.provider;
 
+import com.example.BookStore.model.Book;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 

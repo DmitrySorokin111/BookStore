@@ -1,5 +1,6 @@
-package com.example.BookStore.provider;
+package com.example.BookStore.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -7,21 +8,22 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "books")
 @Data
-@NoArgsConstructor
 public class Book {
 
     private static long seq = 0;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotEmpty(message = "Обязательно для заполнения")
     private String title;
     @NotEmpty(message = "Обязательно для заполнения")
-    private String author;
-    @NotEmpty(message = "Обязательно для заполнения")
     private String publisher;
     @NotNull(message = "Обязательно для заполнения")
-    private int year;
+    private int publicationYear;
     private String genre;
     @NotEmpty(message = "Обязательно для заполнения")
     @Pattern(regexp = "\\d{3}-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d{1,3}", message = "Неверный формат ISBN")
@@ -39,24 +41,9 @@ public class Book {
     private int stock;
     public String imagePath;
 
-//    public Book() {
-//        this.id = seq++;
-//    }
-//
-//    public Book(
-//            long id, String title, String author, String publisher,
-//            int year, String isbn, double price, int pages,
-//            int stock, String imagePath)
-//    {
-//        this.id = id;
-//        this.title = title;
-//        this.author = author;
-//        this.publisher = publisher;
-//        this.year = year;
-//        this.isbn = isbn;
-//        this.price = price;
-//        this.pages = pages;
-//        this.stock = stock;
-//        this.imagePath = imagePath;
-//    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+    public Book() {}
 }

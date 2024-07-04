@@ -1,6 +1,6 @@
 package com.example.BookStore.dao;
 
-import com.example.BookStore.provider.Book;
+import com.example.BookStore.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,7 +20,7 @@ public class BookDAO {
     public void addBook(Book book) {
         String sql = "INSERT INTO books (title, author, publisher, publication_year, genre, isbn, price, pages, description, rating, new_flag, stock, image_path) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        template.update(sql, book.getTitle(), book.getAuthor(), book.getPublisher(), book.getYear(),
+        template.update(sql, book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublicationYear(),
                 book.getGenre(), book.getIsbn(), book.getPrice(), book.getPages(), book.getDescription(),
                 book.getRating(), book.isNewFlag(), book.getStock(), book.getImagePath());
     }
@@ -45,9 +45,9 @@ public class BookDAO {
             Book book = new Book();
             book.setId(rs.getLong("id"));
             book.setTitle(rs.getString("title"));
-            book.setAuthor(rs.getString("author"));
+            //book.setAuthor(rs.getString("author"));
             book.setPublisher(rs.getString("publisher"));
-            book.setYear(rs.getInt("publication_year"));
+//            book.setYear(rs.getInt("publication_year"));
             book.setGenre(rs.getString("genre"));
             book.setIsbn(rs.getString("isbn"));
             book.setPrice(rs.getDouble("price"));
