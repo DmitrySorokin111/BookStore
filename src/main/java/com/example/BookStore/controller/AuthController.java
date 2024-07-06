@@ -1,10 +1,8 @@
 package com.example.BookStore.controller;
 
-import com.example.BookStore.dao.RoleRepository;
-import com.example.BookStore.dao.UserRepository;
-import com.example.BookStore.model.Role;
 import com.example.BookStore.model.User;
-import com.example.BookStore.model.UserRegReq;
+import com.example.BookStore.provider.RoleProvider;
+import com.example.BookStore.provider.UserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,31 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    private UserRepository userRepository;
+    private UserProvider userProvider;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleProvider roleProvider;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegReq userRequest) {
-        if(userRepository.existsByUsername(userRequest.getUsername())) {
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        if(userProvider.existsByUsername(user.getUsername())) {
             return ResponseEntity.badRequest().body("Username is already taken");
         }
 
-        User user = new User();
-        user.setUsername(userRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-
-        Role userRole = roleRepository.findByName("ROLE_ADMIN")
-                .orElseThrow(() -> new RuntimeException("User Role not set"));
-        user.getRoles().add(userRole);
-
-        System.out.println(user.getRoles());
-
-        userRepository.save(user);
+        userProvider.saveUser(user);
 
         return ResponseEntity.ok("User registered successfully");
     }

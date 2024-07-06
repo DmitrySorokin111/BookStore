@@ -28,12 +28,12 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-//        return new CustomUserDetailsService(); //При вытаскивании из БД user.roles пустой
+        return new CustomUserDetailsService(); //При вытаскивании из БД user.roles пустой
 
-        UserDetails admin = User.builder().username("admin").password(passwordEncoder().encode("admin")).roles("ADMIN", "USER").build();
-        UserDetails user = User.builder().username("user").password(passwordEncoder().encode("user")).roles("USER").build();
-
-        return new InMemoryUserDetailsManager(admin, user);
+//        UserDetails admin = User.builder().username("admin").password(passwordEncoder().encode("admin")).roles("ADMIN", "USER").build();
+//        UserDetails user = User.builder().username("user").password(passwordEncoder().encode("user")).roles("USER").build();
+//
+//        return new InMemoryUserDetailsManager(admin, user);
     }
 
     @Bean

@@ -1,6 +1,5 @@
 package com.example.BookStore.controller;
 
-import com.example.BookStore.model.Author;
 import com.example.BookStore.model.Book;
 import com.example.BookStore.model.User;
 import com.example.BookStore.provider.*;
@@ -110,7 +109,7 @@ public class Controller {
 
     @PostMapping("/add-user")
     public String addUser(@RequestBody User user) {
-        userProvider.addUser(user);
+        userProvider.saveUser(user);
         return "User created";
     }
 }
