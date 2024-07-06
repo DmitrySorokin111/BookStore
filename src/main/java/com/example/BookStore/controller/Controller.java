@@ -2,11 +2,11 @@ package com.example.BookStore.controller;
 
 import com.example.BookStore.model.Author;
 import com.example.BookStore.model.Book;
-import com.example.BookStore.provider.AuthorProvider;
-import com.example.BookStore.provider.BookProvider;
-import com.example.BookStore.provider.Cart;
+import com.example.BookStore.model.User;
+import com.example.BookStore.provider.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +22,27 @@ public class Controller {
     @Autowired
     private AuthorProvider authorProvider;
 
+    @Autowired
+    UserProvider userProvider;
+
     @ModelAttribute("cart")
     public Cart cart() {
         return new Cart();
     }
 
+    @GetMapping("/welcome")
+    public String welcome() {
+        return "welcome";
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/booklist")
     public String getBookList(Model model) {
         model.addAttribute("books", bookProvider.getAllBooks());
         return "booklist";
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/book")
     public String getBook(@RequestParam("id") long bookId, Model model, @ModelAttribute("cart") Cart cart) {
         Optional<Book> book = bookProvider.getBook(bookId);
@@ -44,6 +54,7 @@ public class Controller {
         return "redirect:/booklist";
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/storeassistance/add-book")
     public String getAddBookForm(Model model) {
         model.addAttribute("book", new Book());
@@ -51,6 +62,7 @@ public class Controller {
         return "add-book";
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/cart")
     public String viewCart(Model model, @ModelAttribute("cart") Cart cart) {
         model.addAttribute("cartItems", cart.getCart());
@@ -94,5 +106,11 @@ public class Controller {
         Optional<Book> book = bookProvider.getBook(bookId);
         cart.removeBook(book.get());
         return "redirect:/cart";
+    }
+
+    @PostMapping("/add-user")
+    public String addUser(@RequestBody User user) {
+        userProvider.addUser(user);
+        return "User created";
     }
 }

@@ -1,3 +1,16 @@
+INSERT INTO roles (name) VALUES
+('ROLE_USER'),
+('ROLE_ADMIN');
+
+INSERT INTO users (username, password) VALUES
+('user1', 'password1'),
+('admin1', 'password1');
+
+INSERT INTO users_roles (user_id, role_id) VALUES
+(1, 1),
+(2, 1),
+(2, 2);
+
 INSERT INTO authors (name) VALUES
 ('И. С. Тургенев'),
 ('Ф. М. Достоевский'),
