@@ -20,9 +20,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userProvider.getByUsername(username);
+        Optional<User> user = userProvider.getByUsername(username); //почему-то user.getRoles() == []
         if (user.isPresent()) {
-            user.get().setRoles(roleProvider.getByUserId(user.get().getId()));
+            user.get().setRoles(roleProvider.getByUserId(user.get().getId())); //поэтому отдельно присвоим роли по id пользователя (костыль)
             return user.map(CustomUserDetails::new).get();
         } else {
             throw new UsernameNotFoundException(username + " not found");

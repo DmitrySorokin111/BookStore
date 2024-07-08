@@ -1,6 +1,8 @@
 package com.example.BookStore.controller;
 
+import com.example.BookStore.model.Cart;
 import com.example.BookStore.model.User;
+import com.example.BookStore.provider.CartProvider;
 import com.example.BookStore.provider.RoleProvider;
 import com.example.BookStore.provider.UserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class AuthController {
 
     @Autowired
     private RoleProvider roleProvider;
+
+    @Autowired
+    private CartProvider cartProvider;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

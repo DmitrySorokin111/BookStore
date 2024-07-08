@@ -1,10 +1,14 @@
 package com.example.BookStore.provider;
 
+import com.example.BookStore.dao.CartRepository;
 import com.example.BookStore.dao.RoleRepository;
 import com.example.BookStore.dao.UserRepository;
+import com.example.BookStore.model.Cart;
 import com.example.BookStore.model.Role;
 import com.example.BookStore.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,10 @@ public class UserProvider {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -40,6 +48,11 @@ public class UserProvider {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
+
+        Cart cart = new Cart();
+        cart.setUser(user);
+
+        cartRepository.save(cart);
     }
 
     public List<User> getAllUsers() {
@@ -52,5 +65,16 @@ public class UserProvider {
 
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    public Optional<User> getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            return getByUsername(username);
+        }
+
+        return Optional.empty();
     }
 }

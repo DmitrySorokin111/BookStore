@@ -39,3 +39,18 @@ CREATE TABLE books (
     author_id BIGINT,
     CONSTRAINT fk_author FOREIGN KEY (author_id) REFERENCES authors(id)
 );
+
+CREATE TABLE carts (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE cart_items (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cart_id BIGINT,
+    book_id BIGINT,
+    quantity INT,
+    FOREIGN KEY (cart_id) REFERENCES carts(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);
