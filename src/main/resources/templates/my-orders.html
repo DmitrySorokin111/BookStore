@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои заказы</title>
+    <style>
+        .order-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .order-card h3 {
+            margin: 0;
+        }
+        .order-card p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <a href="/booklist"><span>На главную</span></a>
+    <h2>Мои заказы</h2>
+    <div th:each="order : ${orders}" class="order-card" th:onclick="'window.location.href=\'/order-details?id=' + ${order.id} + '\';'">
+        <h3>Заказ №: <span th:text="${order.id}">Order ID</span></h3>
+        <p>Дата создания: <span th:text="${#dates.format(order.createdDate, 'dd-MM-yyyy HH:mm')}">Created Date</span></p>
+        <p>Статус заказа: <span th:text="${order.status.statusName}">Status</span></p>
+    </div>
+</body>
+</html>

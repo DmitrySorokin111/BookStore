@@ -5,6 +5,7 @@
     <title>Корзина</title>
 </head>
 <body>
+<a href="/booklist"><span>На главную</span></a>
 <h2>Корзина</h2>
 <div th:if="${!cart.cartItems.isEmpty()}">
      <ul>
@@ -17,12 +18,12 @@
                  <p th:text="${item.book.author.name}">Автор</p>
                  <p th:text="${item.book.price} + ' Р'">Цена</p>
                  <p>
-                 <form th:action="@{/cart/update}" method="post">
-                     <input type="hidden" th:name="cartItemId" th:value="${item.id}" />
-                     <button type="submit" name="action" value="decrease">-</button>
-                     <span th:text="${item.quantity}">0</span>
-                     <button type="submit" name="action" value="increase">+</button>
-                 </form>
+                     <form th:action="@{/cart/update}" method="post">
+                         <input type="hidden" th:name="cartItemId" th:value="${item.id}" />
+                         <button type="submit" name="action" value="decrease">-</button>
+                         <span th:text="${item.quantity}">0</span>
+                         <button type="submit" name="action" value="increase">+</button>
+                     </form>
                  </p>
                  <p>
                      <form th:action="@{/cart/remove}" method="post">
@@ -34,12 +35,17 @@
          </li>
      </ul>
     <div>
-
         <h3>Общая стоимость: <span th:text="${totalPrice}">0</span> Р</h3>
-        <form th:action="@{/checkout}" method="get">
-            <button type="submit">Перейти к оформлению</button>
-        </form>
     </div>
+
+    <h2>Оформление заказа</h2>
+    <form th:action="@{/place-order}" method="post">
+        <label for="address">Адрес доставки:</label>
+        <select id="address" name="addressId">
+            <option th:each="address : ${addresses}" th:value="${address.id}" th:text="${address.address}"></option>
+        </select>
+        <button type="submit">Оплатить заказ</button>
+    </form>
 </div>
 <div th:if="${cart.cartItems.isEmpty()}">
     <p>Ваша корзина пуста...</p>

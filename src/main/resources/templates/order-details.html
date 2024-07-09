@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Детали заказа</title>
+</head>
+<body>
+  <h2>Детали заказа</h2>
+  <p>Заказ №: <span th:text="${order.id}">Order ID</span></p>
+  <p>Дата создания: <span th:text="${#dates.format(order.createdDate, 'dd-MM-yyyy HH:mm')}">Created Date</span></p>
+  <p>Статус заказа: <span th:text="${order.status.statusName}">Status</span></p>
+  <p>Адрес доставки: <span th:text="${order.address.address}">Status</span></p>
+  <h3>Содержание заказа:</h3>
+  <ul>
+    <li th:each="orderItem : ${order.orderItems}">
+      <span th:text="${orderItem.book.title}">Book Title</span>:
+      <span th:text="${orderItem.quantity}">Quantity</span> шт.,
+      <span th:text="${orderItem.priceAtOrder}">Price at Order</span> Руб.
+    </li>
+  </ul>
+  <a href="/my-orders">Вернуться к заказам</a>
+</body>
+</html>

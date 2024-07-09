@@ -1,9 +1,12 @@
 package com.example.BookStore.controller;
 
+import com.example.BookStore.model.Address;
 import com.example.BookStore.model.Cart;
 import com.example.BookStore.model.CartItem;
 import com.example.BookStore.model.User;
+import com.example.BookStore.provider.BookProvider;
 import com.example.BookStore.provider.CartProvider;
+import com.example.BookStore.provider.OrderProvider;
 import com.example.BookStore.provider.UserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -22,7 +26,13 @@ public class CartController {
     private CartProvider cartProvider;
 
     @Autowired
+    private BookProvider bookProvider;
+
+    @Autowired
     private UserProvider userProvider;
+
+    @Autowired
+    private OrderProvider orderProvider;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/cart")
@@ -33,6 +43,7 @@ public class CartController {
             double totalPrice = cartProvider.getTotalPrice(cart);
             model.addAttribute("totalPrice", totalPrice);
             model.addAttribute("cart", cart);
+            model.addAttribute("addresses", orderProvider.getAllAddresses());
         } else {
             throw new RuntimeException("user not found");
         }
@@ -41,14 +52,14 @@ public class CartController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/cart/add")
-    public String addToCart(@RequestParam Long bookId) {
+    public String addToCart(@RequestParam Long bookId, Model model) {
         Optional<User> user = userProvider.getCurrentUser();
         if (user.isPresent()) {
             cartProvider.addToCart(user.get().getId(), bookId);
         } else {
-            throw new RuntimeException("user not found");
+            return "redirect:/login";
         }
-        return "redirect:/cart";
+        return "redirect:/book?id="+bookId;
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")

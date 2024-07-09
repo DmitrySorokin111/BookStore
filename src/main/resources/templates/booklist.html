@@ -54,10 +54,16 @@
         .book-item button:hover {
             background-color: #45a049;
         }
+        .container-buttons {
+            display: flex;
+        }
     </style>
 </head>
 <body>
-<a href="/cart"><button>Корзина</button></a>
+<div class="container-buttons">
+  <a href="/cart"><button>Корзина</button></a>
+  <a href="/my-orders"><button>Мои заказы</button></a>
+</div>
 <h1 style="text-align:center;">Список книг</h1>
 <div class="book-list">
   <div th:each="book : ${books}" class="book-item">

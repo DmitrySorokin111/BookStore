@@ -68,19 +68,27 @@
         <p><b>Кол-во на складе:</b> <span th:text="${book.stock}"></span></p>
         <p class="book-price" th:text="'Цена: ' + ${book.price} + ' ₽'">Цена: 0 ₽</p>
 
-        <div th:if="${quantity > 0}">
-            <p>Товар уже есть в корзине в количестве <span th:text="${quantity}">0</span></p>
-            <form action="#" th:action="@{/cart/add}" method="post">
-                <input type="hidden" th:name="bookId" th:value="${book.id}" />
-                <button type="submit">Добавить еще</button>
-            </form>
+        <div th:if="${book.stock > 0}">
+            <div th:if="${quantity > 0}">
+                <p>Товар уже есть в корзине в количестве <span th:text="${quantity}">0</span></p>
+                <form action="#" th:action="@{/cart/add}" method="post">
+                    <input type="hidden" th:name="bookId" th:value="${book.id}" />
+                    <button type="submit">Добавить еще</button>
+                </form>
+            </div>
+
+            <div th:if="${quantity == 0}">
+                <form action="#" th:action="@{/cart/add}" method="post">
+                    <input type="hidden" th:name="bookId" th:value="${book.id}"/>
+                    <button type="submit">Добавить в корзину</button>
+                </form>
+            </div>
         </div>
-        <div th:if="${quantity == 0}">
-            <form action="#" th:action="@{/cart/add}" method="post">
-                <input type="hidden" th:name="bookId" th:value="${book.id}" />
-                <button type="submit">Добавить в корзину</button>
-            </form>
+
+        <div th:if="${book.stock == 0}">
+            <button disabled>Нет в наличии</button>
         </div>
+
     </div>
 </div>
 </body>

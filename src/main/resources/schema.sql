@@ -54,3 +54,34 @@ CREATE TABLE cart_items (
     FOREIGN KEY (cart_id) REFERENCES carts(id),
     FOREIGN KEY (book_id) REFERENCES books(id)
 );
+
+CREATE TABLE order_statuses (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    status_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE addresses (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    address VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE orders (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    address_id VARCHAR(255),
+    status_id VARCHAR(255),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (status_id) REFERENCES order_statuses(id),
+    FOREIGN KEY (address_id) REFERENCES addresses(id)
+);
+
+CREATE TABLE order_items (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    order_id BIGINT,
+    book_id BIGINT,
+    quantity INT,
+    price_at_order DOUBLE,
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);
