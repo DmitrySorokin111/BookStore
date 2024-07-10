@@ -5,6 +5,7 @@
     <title>Корзина</title>
 </head>
 <body>
+<div th:replace="~{header :: content}"></div>
 <a href="/booklist"><span>На главную</span></a>
 <h2>Корзина</h2>
 <div th:if="${!cart.cartItems.isEmpty()}">

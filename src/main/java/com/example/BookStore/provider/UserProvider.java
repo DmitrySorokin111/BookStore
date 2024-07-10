@@ -55,6 +55,23 @@ public class UserProvider {
         cartRepository.save(cart);
     }
 
+    public void saveUserWithRoleUser(String username, String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+
+        Optional<Role> role = roleRepository.findByName("ROLE_USER");
+        role.ifPresent(value -> user.getRoles().add(value));
+
+        System.out.println(user);
+        userRepository.save(user);
+
+        Cart cart = new Cart();
+        cart.setUser(user);
+
+        cartRepository.save(cart);
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

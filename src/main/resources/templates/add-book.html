@@ -5,6 +5,7 @@
   <title>Добавить книгу</title>
 </head>
 <body>
+<div th:replace="~{header :: content}"></div>
 <h1>Добавить книгу</h1>
 <form th:action="@{/storeassistance/add-book}" th:object="${book}" method="post">
   <div>

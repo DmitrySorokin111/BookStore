@@ -41,7 +41,9 @@ public class OrderController {
     @GetMapping("/order-details")
     public String viewOrderDetails(@RequestParam Long id, Model model) {
         Order order = orderProvider.getOrderById(id);
+        double cost = orderProvider.getTotalCost(order);
         model.addAttribute("order", order);
+        model.addAttribute("totalCost", cost);
         return "order-details";
     }
 

@@ -12,13 +12,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
@@ -44,11 +43,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/add-user/**", "/welcome/**", "/api/auth/register/**").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/booklist/**", "/book/**", "/register/**", "/register0/**").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .requestMatchers("/**").authenticated())//.hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                        //.requestMatchers("/storeassistance/add-book").authenticated())//.hasAuthority("ROLE_ADMIN"))
-                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll);
+                        .anyRequest().authenticated())
+                .formLogin(formLogin -> formLogin
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/booklist", true));
         return http.build();
     }
 

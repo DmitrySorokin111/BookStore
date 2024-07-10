@@ -79,6 +79,12 @@ public class OrderProvider {
         return addressRepository.findAll();
     }
 
+    public double getTotalCost(Order order) {
+        return order.getOrderItems().stream()
+                .mapToDouble(item -> item.getPriceAtOrder() * item.getQuantity())
+                .sum();
+    }
+
     public void updateOrderStatus(long orderId, long statusId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("Invalid order ID"));
         OrderStatus status = orderStatusRepository.findById(statusId).orElseThrow(() -> new IllegalArgumentException("Invalid status ID"));

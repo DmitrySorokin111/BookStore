@@ -20,6 +20,7 @@
     </style>
 </head>
 <body>
+    <div th:replace="~{header :: content}"></div>
     <a href="/booklist"><span>На главную</span></a>
     <h2>Мои заказы</h2>
     <div th:each="order : ${orders}" class="order-card" th:onclick="'window.location.href=\'/order-details?id=' + ${order.id} + '\';'">

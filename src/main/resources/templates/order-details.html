@@ -5,11 +5,12 @@
     <title>Детали заказа</title>
 </head>
 <body>
+  <div th:replace="~{header :: content}"></div>
   <h2>Детали заказа</h2>
   <p>Заказ №: <span th:text="${order.id}">Order ID</span></p>
   <p>Дата создания: <span th:text="${#dates.format(order.createdDate, 'dd-MM-yyyy HH:mm')}">Created Date</span></p>
   <p>Статус заказа: <span th:text="${order.status.statusName}">Status</span></p>
-  <p>Адрес доставки: <span th:text="${order.address.address}">Status</span></p>
+  <p>Адрес доставки: <span th:text="${order.address.address}">Address</span></p>
   <h3>Содержание заказа:</h3>
   <ul>
     <li th:each="orderItem : ${order.orderItems}">
@@ -18,6 +19,11 @@
       <span th:text="${orderItem.priceAtOrder}">Price at Order</span> Руб.
     </li>
   </ul>
+  <div>
+    <a>Стоимость заказа:</a>
+    <span th:text="${totalCost}">Total cost</span> Руб.
+  </div>
+  </br>
   <a href="/my-orders">Вернуться к заказам</a>
 </body>
 </html>

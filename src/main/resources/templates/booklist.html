@@ -60,23 +60,27 @@
     </style>
 </head>
 <body>
-<div class="container-buttons">
-  <a href="/cart"><button>Корзина</button></a>
-  <a href="/my-orders"><button>Мои заказы</button></a>
-</div>
-<h1 style="text-align:center;">Список книг</h1>
-<div class="book-list">
-  <div th:each="book : ${books}" class="book-item">
-    <a th:href="@{/book(id=${book.id})}">
-      <img th:src="@{${book.imagePath}}" alt="Обложка книги" />
-    </a>
-    <div class="book-title" th:text="${book.title}">Название книги</div>
-    <div class="book-author" th:text="${book.author.name}">Автор</div>
-    <div class="book-price">
-      <span th:text="${book.price}">Цена</span> ₽
+<div th:replace="~{header :: content}"></div>
+<div>
+  <div class="container-buttons">
+    <a href="/cart"><button>Корзина</button></a>
+    <a href="/my-orders"><button>Мои заказы</button></a>
+  </div>
+  <h1 style="text-align:center;">Список книг</h1>
+  <div class="book-list">
+    <div th:each="book : ${books}" class="book-item">
+      <a th:href="@{/book(id=${book.id})}">
+        <img th:src="@{${book.imagePath}}" alt="Обложка книги" />
+      </a>
+      <div class="book-title" th:text="${book.title}">Название книги</div>
+      <div class="book-author" th:text="${book.author.name}">Автор</div>
+      <div class="book-price">
+        <span th:text="${book.price}">Цена</span> ₽
+      </div>
     </div>
   </div>
+  <a href="/storeassistance/add-book"><button>Добавить книгу</button></a>
 </div>
-<a href="/storeassistance/add-book"><button>Добавить книгу</button></a>
+
 </body>
 </html>
