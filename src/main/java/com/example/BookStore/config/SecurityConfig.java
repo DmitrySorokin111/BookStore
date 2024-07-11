@@ -45,6 +45,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/booklist/**", "/book/**", "/register/**", "/register0/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin

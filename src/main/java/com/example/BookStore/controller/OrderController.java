@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 import java.util.Set;
@@ -49,10 +50,13 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/place-order")
-    public String placeOrder(@RequestParam long addressId, Model model) {
+    public String placeOrder(@RequestParam long addressId, Model model, RedirectAttributes redirectAttributes) {
         Optional<User> user = userProvider.getCurrentUser();
         if (user.isPresent()) {
-            orderProvider.createOrder(user.get(), addressId);
+            if (!orderProvider.createOrder(user.get(), addressId)) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Заказ невозможен");
+                return "redirect:/cart";
+            }
             model.addAttribute("orderSuccess", true);
             return "order-success";
         } else {

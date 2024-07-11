@@ -35,20 +35,18 @@ public class MainController {
         return "welcome";
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/booklist")
     public String getBookList(Model model) {
-//        System.out.println(SecurityContextHolder.getContext().getAuthentication().getR());
         model.addAttribute("books", bookProvider.getAllBooks());
         return "booklist";
     }
 
-//    @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/book")
     public String getBook(@RequestParam("id") long bookId, Model model) {
         Optional<Book> book = bookProvider.getBook(bookId);
 
         if (book.isPresent()) {
+            System.out.println(book.get().getImagePath());
             model.addAttribute("book", book.get());
 
             Optional<User> usr = userProvider.getCurrentUser();

@@ -32,8 +32,16 @@ public class OrderProvider {
     private CartProvider cartProvider;
 
     @Transactional
-    public Order createOrder(User user, long addressId) {
+    public boolean createOrder(User user, long addressId) {
         Cart cart = cartProvider.getCartByUserId(user.getId());
+
+        Set<CartItem> cartItems = cart.getCartItems();
+
+        for (CartItem cartItem : cartItems) {
+            if (cartItem.getQuantity() > cartItem.getBook().getStock()) {
+                return false;
+            }
+        }
 
         Address address = addressRepository.findById(addressId).orElse(null);
         OrderStatus status = orderStatusRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("Pending status not found"));
@@ -64,7 +72,7 @@ public class OrderProvider {
 
         cartProvider.clearCart(cart);
 
-        return order;
+        return true;
     }
 
     public Set<Order> getOrdersByUser(User user) {

@@ -44,7 +44,7 @@ public class CartProvider {
 
         if (book.isPresent()) {
             if (book.get().getStock() == 0) {
-                throw new IllegalArgumentException("Not enough books in stock");
+                return cart;
             }
 
             Book b = book.get();
