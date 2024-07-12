@@ -66,7 +66,7 @@
         <p><b>ISBN:</b> <span th:text="${book.isbn}"></span></p>
         <p><b>Кол-во страниц:</b> <span th:text="${book.pages}"></span></p>
         <p><b>Рейтинг:</b> <span th:text="${book.rating}"></span> / 10</p>
-        <p><b>Кол-во на складе:</b> <span th:text="${book.stock}"></span></p>
+        <p><b>Кол-во на складе:</b> <a th:text="${book.stock > 5 ? 'много' : (book.stock > 0 ? 'осталось мало' : 'нет в наличии')}"></a></p>
         <p class="book-price" th:text="'Цена: ' + ${book.price} + ' ₽'">Цена: 0 ₽</p>
 
         <div th:if="${book.stock > 0}">

@@ -46,7 +46,6 @@ public class MainController {
         Optional<Book> book = bookProvider.getBook(bookId);
 
         if (book.isPresent()) {
-            System.out.println(book.get().getImagePath());
             model.addAttribute("book", book.get());
 
             Optional<User> usr = userProvider.getCurrentUser();

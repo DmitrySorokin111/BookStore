@@ -13,23 +13,21 @@
         }
 
         .book-item {
+            position: relative;
             border: 1px solid #ccc;
             border-radius: 10px;
-            padding: 20px;
+            padding: 10px;
+            margin: 10px;
             width: 200px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: left;
+            display: inline-block;
+            vertical-align: top;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .book-item img {
-            width: 150px; /* Ширина изображений */
-            height: 200px; /* Высота изображений */
-            object-fit: cover; /* Установка типа подгонки */
+            max-width: 100%;
+            height: auto;
             margin-bottom: 10px;
-            align-self: center;
         }
 
         .book-item .book-author {
@@ -54,8 +52,21 @@
         .book-item button:hover {
             background-color: #45a049;
         }
+
         .container-buttons {
             display: flex;
+        }
+
+        .new-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: green;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -68,6 +79,7 @@
   <h1 style="text-align:center;">Список книг</h1>
   <div class="book-list">
     <div th:each="book : ${books}" class="book-item">
+      <div th:if="${book.newFlag}" class="new-label">Новинка</div>
       <a th:href="@{/book(id=${book.id})}">
         <img th:src="@{${book.imagePath}}" alt="Обложка книги" />
       </a>
