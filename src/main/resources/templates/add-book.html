@@ -7,30 +7,35 @@
 <body>
 <div th:replace="~{header :: content}"></div>
 <h1>Добавить книгу</h1>
-<form th:action="@{/storeassistance/add-book}" th:object="${book}" method="post">
+<form id="addBookForm">
+
   <div>
-    <label>Название:</label>
-    <input type="text" id="title" th:field="*{title}">
-    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
-  </div>
+    <label for="title">Название:</label>
+    <input type="text" id="title" name="title" required>
+<!--    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>-->
+  </div><br>
+
   <div>
     <label for="author">Автор:</label>
-    <select id="author" th:field="*{author}" required>
+    <select id="author" name="author" required>
       <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}">Author</option>
-    </select><br/>
-  </div>
+    </select>
+  </div><br>
+
   <div>
-    <label>Издательство:</label>
-    <input type="text" th:field="*{publisher}" />
-  </div>
+    <label for="publisher">Издательство:</label>
+    <input type="text" id="publisher" name="publisher" required/>
+  </div><br>
+
   <div>
-    <label>Год издания:</label>
-    <input type="number" id="publicationYear" th:field="*{publicationYear}" />
-    <p th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}"></p>
-  </div>
+    <label for="publicationYear">Год издания:</label>
+    <input type="number" id="publicationYear" name="publicationYear" required/>
+<!--    <p th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}"></p>-->
+  </div><br>
+
   <div>
-    <label>Жанр:</label>
-    <select th:field="*{genre}">
+    <label for="genre">Жанр:</label>
+    <select id="genre" name="genre" required>
       <option value="">Выберите жанр</option>
       <option value="Рассказ">Рассказ</option>
       <option value="Повесть">Повесть</option>
@@ -39,52 +44,109 @@
       <option value="Социология">Социология</option>
       <option value="История">История</option>
     </select>
-  </div>
+  </div><br>
+
   <div>
-    <label>ISBN:</label>
-    <input type="text" id="isbn" th:field="*{isbn}">
-    <p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></p>
-  </div>
+    <label for="isbn">ISBN:</label>
+    <input type="text" id="isbn" name="isbn" required>
+<!--    <p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></p>-->
+  </div><br>
+
   <div>
-    <label>Цена:</label>
-    <input type="number" id="price" th:field="*{price}" step="1">
-    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
-  </div>
+    <label for="price">Цена:</label>
+    <input type="number" id="price" name="price" step="1" required>
+<!--    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>-->
+  </div><br>
+
   <div>
-    <label>Кол-во страниц:</label>
-    <input type="number" id="pages" th:field="*{pages}" />
-    <p th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}"></p>
-  </div>
+    <label for="pages">Кол-во страниц:</label>
+    <input type="number" id="pages" name="pages" required/>
+<!--    <p th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}"></p>-->
+  </div><br>
+
   <div>
-    <label>Аннотация:</label>
-    <textarea th:field="*{description}"></textarea>
-  </div>
+    <label for="description">Аннотация:</label>
+    <textarea id="description" name="description"></textarea>
+  </div><br>
+
   <div>
-    <label>Рейтинг (0-10):</label>
-    <input type="number" th:field="*{rating}" min="0" max="10" step="1" />
-  </div>
+    <label for="rating">Рейтинг (0-10):</label>
+    <input type="number" id="rating" name="rating" min="0" max="10" step="1" />
+  </div><br>
+
   <div>
-    <label>Признак новизны:</label>
-    <input type="checkbox" th:field="*{newFlag}" />
-  </div>
+    <label for="newFlag">Признак новизны:</label>
+    <input type="checkbox" id="newFlag" name="newFlag"/>
+  </div><br>
+
   <div>
-    <label>Кол-во на складе:</label>
-    <input type="number" id="stock" th:field="*{stock}" />
-    <p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></p>
-  </div>
+    <label for="stock">Кол-во на складе:</label>
+    <input type="number" id="stock" name="stock" required/>
+<!--    <p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></p>-->
+  </div><br>
+
   <div>
-    <label>Обложка:</label>
-    <select th:field="*{imagePath}">
+    <label for="imagePath">Обложка:</label>
+    <select id="imagePath" name="imagePath" required>
       <option value="images/1.jpg">Выберите обложку</option>
       <option value="images/1.jpg">Обложка 1</option>
       <option value="images/2.jpg">Обложка 2</option>
       <option value="images/3.jpg">Обложка 3</option>
       <option value="images/4.jpg">Обложка 4</option>
+      <option value="images/5.jpg">Обложка 5</option>
+      <option value="images/6.jpg">Обложка 6</option>
+      <option value="images/7.jpg">Обложка 7</option>
     </select>
-  </div>
+  </div><br>
+
   <div>
-    <button type="submit">Добавить</button>
-  </div>
+    <button type="submit" onclick="submitBook()">Добавить</button>
+  </div><br>
+
 </form>
+
+<script>
+        function submitBook() {
+            console.log('Form submission initiated'); // Диагностика начала выполнения функции
+            const form = document.getElementById('addBookForm');
+            const formData = new FormData(form);
+            const jsonData = {};
+
+            formData.forEach((value, key) => {
+                if (key === 'author') {
+                    jsonData[key] = { id: value };
+                } else if (key === 'newFlag') {
+                    jsonData[key] = form.querySelector('input[name="newFlag"]').checked;
+                } else {
+                    jsonData[key] = value;
+                }
+            });
+
+            // Вывод JSON в консоль
+            console.log('Prepared JSON data:', jsonData);
+
+            fetch('/storeassistance/add-book', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                console.log('Response received:', response);
+                if (response.ok) {
+                    alert('Book added successfully!');
+                    form.reset(); // Очистка формы после успешного добавления
+                } else {
+                    response.text().then(text => alert('Error adding book: ' + text));
+                }
+            })
+            .catch(error => {
+                console.error('Error occurred:', error);
+                alert('Error: ' + error);
+            });
+        }
+    </script>
+
 </body>
 </html>

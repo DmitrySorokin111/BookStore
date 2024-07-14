@@ -44,7 +44,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/booklist/**", "/book/**", "/register/**", "/register0/**").permitAll()
+                        .requestMatchers("/booklist/**", "storeassistance/**", "/book/**", "/register/**", "/register0/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .anyRequest().authenticated())

@@ -75,15 +75,5 @@ public class MainController {
         model.addAttribute("authors", authorProvider.getAllAuthors());
         return "add-book";
     }
-
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/storeassistance/add-book")
-    public String addBook(@Valid @ModelAttribute Book book, BindingResult br, Model model) {
-        if (br.hasErrors()) {
-            model.addAttribute("authors", authorProvider.getAllAuthors());
-            return "add-book";
-        }
-        bookProvider.saveBook(book);
-        return "redirect:/booklist";
-    }
+//    }
 }
