@@ -54,8 +54,8 @@ public class OrderController {
         Optional<User> user = userProvider.getCurrentUser();
         if (user.isPresent()) {
             if (!orderProvider.createOrder(user.get(), addressId)) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Заказ невозможен");
-                return "redirect:/cart";
+                redirectAttributes.addFlashAttribute("errorMessage", "Заказ невозможен. Измените корзину.");
+                return "redirect:/order-details";
             }
             model.addAttribute("orderSuccess", true);
             return "order-success";
